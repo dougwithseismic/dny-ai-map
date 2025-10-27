@@ -45,8 +45,6 @@ export function EventFilters({
 }: EventFiltersProps) {
   const { translateLanguage, translateTarget, translateFormat, translateCity } = useTranslations();
   const { copyToClipboard } = useCopyToClipboard();
-  const [dateInput, setDateInput] = useState("");
-  const [yearInput, setYearInput] = useState("");
 
   // Convert cities to multi-select options (translate label, keep ID for API)
   const cityOptions: MultiSelectOption[] = useMemo(
@@ -117,36 +115,6 @@ export function EventFilters({
       ? currentFormats.filter((id) => id !== formatId)
       : [...currentFormats, formatId];
     onFilterChange({ formats: newFormats.length > 0 ? newFormats : undefined });
-  };
-
-  const handleDateAdd = () => {
-    if (!dateInput) return;
-    const currentDates = filters.dates || [];
-    if (!currentDates.includes(dateInput)) {
-      onFilterChange({ dates: [...currentDates, dateInput] });
-    }
-    setDateInput("");
-  };
-
-  const handleDateRemove = (date: string) => {
-    const currentDates = filters.dates || [];
-    const newDates = currentDates.filter((d) => d !== date);
-    onFilterChange({ dates: newDates.length > 0 ? newDates : undefined });
-  };
-
-  const handleYearAdd = () => {
-    if (!yearInput) return;
-    const currentYears = filters.year || [];
-    if (!currentYears.includes(yearInput)) {
-      onFilterChange({ year: [...currentYears, yearInput] });
-    }
-    setYearInput("");
-  };
-
-  const handleYearRemove = (year: string) => {
-    const currentYears = filters.year || [];
-    const newYears = currentYears.filter((y) => y !== year);
-    onFilterChange({ year: newYears.length > 0 ? newYears : undefined });
   };
 
   const handlePriceFilterChange = (value: "all" | "free" | "paid") => {
@@ -339,80 +307,6 @@ export function EventFilters({
         </div>
       )}
 
-      {/* Date Filter */}
-      <div className="space-y-2">
-        <Label>Dates</Label>
-        <div className="flex gap-2">
-          <Input
-            type="date"
-            value={dateInput}
-            onChange={(e) => setDateInput(e.target.value)}
-            className="flex-1"
-          />
-          <Button
-            onClick={handleDateAdd}
-            disabled={!dateInput}
-            size="sm"
-          >
-            Add
-          </Button>
-        </div>
-        {filters.dates && filters.dates.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {filters.dates.map((date) => (
-              <Badge key={date} variant="secondary" className="gap-1">
-                {new Date(date).toLocaleDateString()}
-                <button
-                  type="button"
-                  onClick={() => handleDateRemove(date)}
-                  className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                >
-                  <XIcon className="h-3 w-3" />
-                </button>
-              </Badge>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Year Filter */}
-      <div className="space-y-2">
-        <Label>Year</Label>
-        <div className="flex gap-2">
-          <Input
-            type="number"
-            value={yearInput}
-            onChange={(e) => setYearInput(e.target.value)}
-            placeholder="e.g., 2024"
-            min="2000"
-            max="2100"
-            className="flex-1"
-          />
-          <Button
-            onClick={handleYearAdd}
-            disabled={!yearInput}
-            size="sm"
-          >
-            Add
-          </Button>
-        </div>
-        {filters.year && filters.year.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {filters.year.map((year) => (
-              <Badge key={year} variant="secondary" className="gap-1">
-                {year}
-                <button
-                  type="button"
-                  onClick={() => handleYearRemove(year)}
-                  className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                >
-                  <XIcon className="h-3 w-3" />
-                </button>
-              </Badge>
-            ))}
-          </div>
-        )}
-      </div>
     </div>
   );
 }
