@@ -1,0 +1,658 @@
+[
+  {
+    "locationId": "116",
+    "locationName": "Budova H TUL, Univerzitní knihovna",
+    "address": "Voroněžská 1329/13",
+    "cityName": "Liberec",
+    "latitude": 50.7720941,
+    "longitude": 15.0608205
+  },
+  {
+    "locationId": "42",
+    "locationName": "TechTower",
+    "address": "Koterovská 152",
+    "cityName": "Plzeň",
+    "latitude": 49.7291441,
+    "longitude": 13.4090796
+  },
+  {
+    "locationId": "89",
+    "locationName": "Vzdělávací centrum SFÉRA, Automatické mlýny",
+    "address": "Mezi mosty",
+    "cityName": "Pardubice",
+    "latitude": 50.0406036,
+    "longitude": 15.7813122
+  },
+  {
+    "locationId": "155",
+    "locationName": "Moravskoslezská vědecká knihovna",
+    "address": "Prokešovo nám. 1802/9",
+    "cityName": "Ostrava",
+    "latitude": 49.8411029,
+    "longitude": 18.2911204
+  },
+  {
+    "locationId": "253",
+    "locationName": "VOŠ a SPŠ - posluchárna",
+    "address": "Masarykova 197",
+    "cityName": "Kutná hora",
+    "latitude": 49.9532472,
+    "longitude": 15.2758173
+  },
+  {
+    "locationId": "86",
+    "locationName": "Krajská vědecká knihovna v Liberci",
+    "address": "Rumjancevova 1362/1",
+    "cityName": "Liberec",
+    "latitude": 50.7719242,
+    "longitude": 15.0581202
+  },
+  {
+    "locationId": "200",
+    "locationName": "IQFABLAB",
+    "address": "Nitranská 410/10, Liberec 3",
+    "cityName": "Liberec",
+    "latitude": 50.7612,
+    "longitude": 15.0531
+  },
+  {
+    "locationId": "205",
+    "locationName": "Jihočeský věděckotechnický park",
+    "address": "Lipová 1789, 370 05 České Budějovice 5",
+    "cityName": "České Budějovice",
+    "latitude": 48.9915,
+    "longitude": 14.4674
+  },
+  {
+    "locationId": "251",
+    "locationName": "Sídlo ADS energy",
+    "address": "Masarykova 645",
+    "cityName": "Kutná hora",
+    "latitude": 49.9511014,
+    "longitude": 15.2742478
+  },
+  {
+    "locationId": "261",
+    "locationName": "Víceúčelová díla easyLAB",
+    "address": "Jáchymovská 437/80a",
+    "cityName": "Karlovy Vary",
+    "latitude": 50.2425681,
+    "longitude": 12.8750275
+  },
+  {
+    "locationId": "77",
+    "locationName": "MSIC, budova VIVA",
+    "address": "Technologická 5, Ostrava Pustkovec, 70800",
+    "cityName": "Ostrava",
+    "latitude": 49.8390612,
+    "longitude": 18.1543455
+  },
+  {
+    "locationId": "81",
+    "locationName": "Centrum přírodovědných a technických oborů Univerzity Jana Evangelisty Purkyně (CPTO UJEP)",
+    "address": "Pasteurova 3632",
+    "cityName": "Ústí nad Labem",
+    "latitude": 50.6646269,
+    "longitude": 14.0257203
+  },
+  {
+    "locationId": "84",
+    "locationName": "Lipo.ink",
+    "address": "U jezu 525/4",
+    "cityName": "Liberec",
+    "latitude": 50.7637923,
+    "longitude": 15.0536375
+  },
+  {
+    "locationId": "201",
+    "locationName": "Technické muzeum v Liberci",
+    "address": "Masarykova 424/5, 460 01 Liberec",
+    "cityName": "Liberec",
+    "latitude": 50.7736872,
+    "longitude": 15.0653879
+  },
+  {
+    "locationId": "87",
+    "locationName": "Fakulta mechatroniky, informatiky a mezioborových studií",
+    "address": "Hálkova 6",
+    "cityName": "Liberec",
+    "latitude": 50.7727363,
+    "longitude": 15.0715684
+  },
+  {
+    "locationId": "242",
+    "locationName": "WorkzSpace",
+    "address": "Národní tř. 3687/42, 695 01 Hodonín 1",
+    "cityName": "Hodonín",
+    "latitude": 48.8523,
+    "longitude": 17.1299
+  },
+  {
+    "locationId": "250",
+    "locationName": "Vysoká škola polytechnická Jihlava",
+    "address": "Tolstého 16",
+    "cityName": "Jihlava",
+    "latitude": 49.3987261,
+    "longitude": 15.5826654
+  },
+  {
+    "locationId": "127",
+    "locationName": "IN-HUB Přerov",
+    "address": "Bratrská 2",
+    "cityName": "Přerov",
+    "latitude": 49.4545014,
+    "longitude": 17.4487728
+  },
+  {
+    "locationId": "96",
+    "locationName": "Envelopa Hub",
+    "address": "17. listopadu 8a",
+    "cityName": "Olomouc",
+    "latitude": 49.5909081,
+    "longitude": 17.2635035
+  },
+  {
+    "locationId": "215",
+    "locationName": "FF UPCE",
+    "address": "Studentská 95, 532 10 Pardubice 2",
+    "cityName": "Pardubice",
+    "latitude": 50.0349,
+    "longitude": 15.7677
+  },
+  {
+    "locationId": "283",
+    "locationName": "Konvikt - Umělecké centrum Univerzity Palackého v Olomouci",
+    "address": "Univerzitní nám. 225",
+    "cityName": "Olomouc",
+    "latitude": 49.5937,
+    "longitude": 17.2509
+  },
+  {
+    "locationId": "199",
+    "locationName": "FEI UPCE",
+    "address": "náměstí Čs. legií 565 530 02 Pardubice",
+    "cityName": "Pardubice",
+    "latitude": 50.0332607,
+    "longitude": 15.767504
+  },
+  {
+    "locationId": "88",
+    "locationName": "Science centrum iQLANDIA, o.p.s.",
+    "address": "Nitranská 410/10",
+    "cityName": "Liberec",
+    "latitude": 50.7612264,
+    "longitude": 15.0530685
+  },
+  {
+    "locationId": "204",
+    "locationName": "FF UHK",
+    "address": "nám. Svobody 331/2, 500 02 Hradec Králové 2",
+    "cityName": "Hradec Králové",
+    "latitude": 50.2095,
+    "longitude": 15.8318
+  },
+  {
+    "locationId": "208",
+    "locationName": "KANOV - podnikatelský inkubátor",
+    "address": "Závodní 278, 360 18 Karlovy Vary",
+    "cityName": "Karlovy Vary",
+    "latitude": 50.216419,
+    "longitude": 12.8254595
+  },
+  {
+    "locationId": "212",
+    "locationName": "P-PINK",
+    "address": "Jana Palacha 363, Pardubice 530 02",
+    "cityName": "Pardubice",
+    "latitude": 50.0304672,
+    "longitude": 15.7701981
+  },
+  {
+    "locationId": "213",
+    "locationName": "FES UPCE",
+    "address": "Studentská 95, 532 10 Pardubice 2",
+    "cityName": "Pardubice",
+    "latitude": 50.0349,
+    "longitude": 15.7677
+  },
+  {
+    "locationId": "239",
+    "locationName": "Technologické inovační centrum, 23. budova, zasedací místnost v 1. NP",
+    "address": "Vavrečkova 5262, Zlín, 760 01 ",
+    "cityName": "Zlín",
+    "latitude": 49.2239825,
+    "longitude": 17.6578975
+  },
+  {
+    "locationId": "248",
+    "locationName": "ZUŠ Teplice",
+    "address": "Chelčického 4",
+    "cityName": "Teplice",
+    "latitude": 50.6418835,
+    "longitude": 13.8310671
+  },
+  {
+    "locationId": "257",
+    "locationName": "Městská knihovna",
+    "address": "Staré náměstí 135",
+    "cityName": "Sokolov",
+    "latitude": 50.1803684,
+    "longitude": 12.6390665
+  },
+  {
+    "locationId": "258",
+    "locationName": "Městská knihovna Chodov",
+    "address": "Staroměstská 55",
+    "cityName": "Chodov",
+    "latitude": 50.2380429,
+    "longitude": 12.7483301
+  },
+  {
+    "locationId": "260",
+    "locationName": "Okresní hospodářská komora Jihlava",
+    "address": "Benešova 13,",
+    "cityName": "Jihlava",
+    "latitude": 49.3958549,
+    "longitude": 15.5875685
+  },
+  {
+    "locationId": "265",
+    "locationName": "Senior Point JIhlava",
+    "address": "Palackého 26/1305, 586 01 Jihlava",
+    "cityName": "Jihlava",
+    "latitude": 49.3962,
+    "longitude": 15.5909
+  },
+  {
+    "locationId": "269",
+    "locationName": "Gymnázium Havlíčkův Brod",
+    "address": "Štáflova 2063",
+    "cityName": "Havlíčkův Brod",
+    "latitude": 49.609084,
+    "longitude": 15.5802845
+  },
+  {
+    "locationId": "272",
+    "locationName": "VŠTE",
+    "address": "Okružní 517",
+    "cityName": "České Budějovice",
+    "latitude": 48.9958758,
+    "longitude": 14.4949179
+  },
+  {
+    "locationId": "195",
+    "locationName": "Krajský úřad Královehradeckého kraje",
+    "address": "Pivovarské náměstí 1245/2, 500 03 Hradec Králové",
+    "cityName": "Hradec Králové",
+    "latitude": 50.2084833,
+    "longitude": 15.8295343
+  },
+  {
+    "locationId": "163",
+    "locationName": "Krajské pracoviště NPI ČR v Pardubicích",
+    "address": "Za Pasáží 657",
+    "cityName": "Pardubice",
+    "latitude": 50.0360015,
+    "longitude": 15.7748743
+  },
+  {
+    "locationId": "161",
+    "locationName": "Krajské pracoviště NPI ČR v Ústí nad Labem",
+    "address": "Winstona Churchilla 1348/6",
+    "cityName": "Ústí nad Labem",
+    "latitude": 50.6640026,
+    "longitude": 14.0352797
+  },
+  {
+    "locationId": "159",
+    "locationName": "Krajské pracoviště NPI ČR v Českých Budějovicích",
+    "address": "Hlinsko 49",
+    "cityName": "České Budějovice",
+    "latitude": 48.9811937,
+    "longitude": 14.5172198
+  },
+  {
+    "locationId": "194",
+    "locationName": "Galerie Artičok",
+    "address": "třída Karla IV. 493/13, 50002 Hradec Králové",
+    "cityName": "Hradec Králové",
+    "latitude": 50.2130259,
+    "longitude": 15.8238752
+  },
+  {
+    "locationId": "74",
+    "locationName": "Centrum robotiky",
+    "address": "Cukrovarská 23C",
+    "cityName": "Plzeň",
+    "latitude": 49.7368117,
+    "longitude": 13.3819946
+  },
+  {
+    "locationId": "197",
+    "locationName": "Kulturní centrum Svoboda Cheb",
+    "address": "Za Mostní branou 1791/5, 350 02 Cheb 2",
+    "cityName": "Cheb",
+    "latitude": 50.0764,
+    "longitude": 12.3717
+  },
+  {
+    "locationId": "198",
+    "locationName": "DŮM U PARKU",
+    "address": "21, Palackého 75, 779 00 Olomouc",
+    "cityName": "Olomouc",
+    "latitude": 49.5952,
+    "longitude": 17.2503
+  },
+  {
+    "locationId": "91",
+    "locationName": "Výukové centrum VŠPJ",
+    "address": "Tolstého 1556",
+    "cityName": "Jihlava",
+    "latitude": 49.3987261,
+    "longitude": 15.5826654
+  },
+  {
+    "locationId": "184",
+    "locationName": "Administrativní budova Královéhradeckého kraje",
+    "address": "Na Okrouhlíku 1371/30",
+    "cityName": "Hradec Králové",
+    "latitude": 50.2188972,
+    "longitude": 15.8147268
+  },
+  {
+    "locationId": "193",
+    "locationName": "Královéhradecký krajský institut pro vzdělávání a inovace",
+    "address": "17. listopadu 861, Jičín",
+    "cityName": "Jičín",
+    "latitude": 50.4348348,
+    "longitude": 15.3553232
+  },
+  {
+    "locationId": "203",
+    "locationName": "FIM UHK",
+    "address": "Hradecká 1249/6",
+    "cityName": "Hradec Králové",
+    "latitude": 50.2042663,
+    "longitude": 15.8293537
+  },
+  {
+    "locationId": "206",
+    "locationName": "KOSTKA - kolobka, s.r.o. ",
+    "address": "Potůčník 449, 788 33 Hanušovice",
+    "cityName": "Hanušovice",
+    "latitude": 50.0645914,
+    "longitude": 16.9755744
+  },
+  {
+    "locationId": "207",
+    "locationName": "Městská knihovna T.G. Masaryka Šumperk",
+    "address": "28. října 1280/1, 787 01 Šumperk 1",
+    "cityName": "Šumperk",
+    "latitude": 49.9661,
+    "longitude": 16.9702
+  },
+  {
+    "locationId": "120",
+    "locationName": "Technologické Inovační Centrum (TIC)",
+    "address": "Vavrečkova 5262",
+    "cityName": "Zlín",
+    "latitude": 49.2239825,
+    "longitude": 17.6578975
+  },
+  {
+    "locationId": "249",
+    "locationName": "Momento Pardubice",
+    "address": "nám. Jana Pernera 217",
+    "cityName": "Pardubice",
+    "latitude": 50.0323565,
+    "longitude": 15.7562893
+  },
+  {
+    "locationId": "210",
+    "locationName": "Střední škola technická a dopravní Gustava Habrmana Česká Třebová",
+    "address": "Habrmanova 1540, 56002 Česká Třebová",
+    "cityName": "Česká Třebová",
+    "latitude": 49.9042866,
+    "longitude": 16.4409096
+  },
+  {
+    "locationId": "211",
+    "locationName": "Multima ",
+    "address": "Čechovo nábřeží 1790, pardubice",
+    "cityName": "Pardubice",
+    "latitude": 50.0399807,
+    "longitude": 15.782975
+  },
+  {
+    "locationId": "214",
+    "locationName": "Hotel UNO",
+    "address": "T.G.Masaryka 897, Ústí nad Orlicí",
+    "cityName": "Ústí nad Orlicí",
+    "latitude": 49.9694669,
+    "longitude": 16.3960222
+  },
+  {
+    "locationId": "216",
+    "locationName": "Technická univerzita v Liberci - Aula",
+    "address": "Univerzitní nám. 1410, 460 01 Staré Město",
+    "cityName": "Liberec",
+    "latitude": 50.7732155,
+    "longitude": 15.0761105
+  },
+  {
+    "locationId": "73",
+    "locationName": "nvias.org",
+    "address": "Cukrovarská 3006/20",
+    "cityName": "Plzeň",
+    "latitude": 49.7366794,
+    "longitude": 13.3814816
+  },
+  {
+    "locationId": "229",
+    "locationName": "COMTES FHT",
+    "address": "Průmyslová 995, 334 41 Dobřany",
+    "cityName": "Plzeň",
+    "latitude": 49.6568904,
+    "longitude": 13.3053441
+  },
+  {
+    "locationId": "180",
+    "locationName": " Kino Pohoda Jeseník",
+    "address": "Dittersdorfova 599/2",
+    "cityName": "Jeseník",
+    "latitude": 50.2291301,
+    "longitude": 17.2078212
+  },
+  {
+    "locationId": "230",
+    "locationName": "Technologické inovační centrum, 23. budova, prezentační sál ve 4. NP",
+    "address": "Vavrečkova 5262, Zlín, 760 01 ",
+    "cityName": "Zlín",
+    "latitude": 49.2239825,
+    "longitude": 17.6578975
+  },
+  {
+    "locationId": "157",
+    "locationName": "Emplifi",
+    "address": "Pod Všemi svatými 427/17",
+    "cityName": "Plzeň",
+    "latitude": 49.7542049,
+    "longitude": 13.3789187
+  },
+  {
+    "locationId": "186",
+    "locationName": "prostory BIC Plzeň",
+    "address": "Riegrova 201/1, 301 00 Plzeň",
+    "cityName": "Plzeň",
+    "latitude": 49.747488,
+    "longitude": 13.3747993
+  },
+  {
+    "locationId": "235",
+    "locationName": "Klub 29",
+    "address": "Sv. Anežky České 29, Pardubice",
+    "cityName": "Pardubice",
+    "latitude": 50.0407,
+    "longitude": 15.7783
+  },
+  {
+    "locationId": "246",
+    "locationName": "Knihovna Ústeckého kraje",
+    "address": "Winstona Churchilla 1974/3, Ústí nad Labem",
+    "cityName": "Ústí nad Labem",
+    "latitude": 50.6631717,
+    "longitude": 14.0354468
+  },
+  {
+    "locationId": "247",
+    "locationName": "Dům umění Ústí nad Labem",
+    "address": "Klíšská 1101/129a, Ústí nad Labem",
+    "cityName": "Ústí nad Labem",
+    "latitude": 50.6665875,
+    "longitude": 14.0134277
+  },
+  {
+    "locationId": "132",
+    "locationName": "Brain4Industry",
+    "address": "Za Radnicí 933",
+    "cityName": "Dolní Břežany",
+    "latitude": 49.9623022,
+    "longitude": 14.456464
+  },
+  {
+    "locationId": "254",
+    "locationName": "BAR 22",
+    "address": "Palackého nám. 156/2",
+    "cityName": "Kutná hora",
+    "latitude": 49.9493929,
+    "longitude": 15.2678401
+  },
+  {
+    "locationId": "256",
+    "locationName": "Krajský úřad Pardubického kraje, Sál Zastupitelstva",
+    "address": "Komenského 125",
+    "cityName": "Pardubice",
+    "latitude": 50.0380177,
+    "longitude": 15.780485
+  },
+  {
+    "locationId": "160",
+    "locationName": "Krajské pracoviště NPI ČR v Karlových Varech",
+    "address": "Západní 1050",
+    "cityName": "Karlovy Vary",
+    "latitude": 50.229357,
+    "longitude": 12.8629142
+  },
+  {
+    "locationId": "259",
+    "locationName": "Střední živnostenská škola",
+    "address": "Žákovská 716",
+    "cityName": "Sokolov",
+    "latitude": 50.1866433,
+    "longitude": 12.6411957
+  },
+  {
+    "locationId": "149",
+    "locationName": "Západočeská univerzita v Plzni, Fakulta strojní (místnost UU107)",
+    "address": "Univerzitní 22",
+    "cityName": "Plzeň",
+    "latitude": 49.7248152,
+    "longitude": 13.3509404
+  },
+  {
+    "locationId": "262",
+    "locationName": "ZČU - budova Fakulty elektrotechnické ZČU, EP120",
+    "address": "Univerzitní 8",
+    "cityName": "Plzeň",
+    "latitude": 49.7269,
+    "longitude": 13.3541
+  },
+  {
+    "locationId": "276",
+    "locationName": "Knihovna V. Priessnitze v Jeseníku",
+    "address": "28. října 870/18",
+    "cityName": "Jeseník",
+    "latitude": 50.2298,
+    "longitude": 17.2046
+  },
+  {
+    "locationId": "275",
+    "locationName": "Hotel Perk",
+    "address": "17. listopadu 413/1",
+    "cityName": "Šumperk",
+    "latitude": 49.9647,
+    "longitude": 16.9708
+  },
+  {
+    "locationId": "130",
+    "locationName": "Valašskokloboucké podnikatelské centrum",
+    "address": "Masarykovo náměstí 103",
+    "cityName": "Valašské Klobouky",
+    "latitude": 49.1377,
+    "longitude": 17.9729
+  },
+  {
+    "locationId": "266",
+    "locationName": "Senior Point Pelhřimov",
+    "address": "Hrnčířská 111",
+    "cityName": "Pelhřimov",
+    "latitude": 49.4309,
+    "longitude": 15.2241
+  },
+  {
+    "locationId": "267",
+    "locationName": "Senior Point Žďár nad Sázavou",
+    "address": "Havlíčkovo nám. 253",
+    "cityName": "Žďár nad Sázavou",
+    "latitude": 49.5633,
+    "longitude": 15.9391
+  },
+  {
+    "locationId": "268",
+    "locationName": "Senior Point Havlíčkův Brod",
+    "address": "Rubešovo náměstí 171, 58001 Havlíčkův Brod",
+    "cityName": "Havlíčkův Brod",
+    "latitude": 49.6075,
+    "longitude": 15.5803
+  },
+  {
+    "locationId": "270",
+    "locationName": "ZŠ a MŠ Ždírec nad Doubravou",
+    "address": "Chrudimská 77",
+    "cityName": "Ždírec nad Doubravou",
+    "latitude": 49.6648,
+    "longitude": 15.9851
+  },
+  {
+    "locationId": "271",
+    "locationName": "Fakulta zemědělská a technologická - pavilon ZR",
+    "address": "Studentská 2/1780",
+    "cityName": "České Budějovice",
+    "latitude": 48.9913,
+    "longitude": 14.4683
+  },
+  {
+    "locationId": "101",
+    "locationName": "ZVaS",
+    "address": "Nemanická 7",
+    "cityName": "České Budějovice",
+    "latitude": 48.9805,
+    "longitude": 14.4693
+  },
+  {
+    "locationId": "273",
+    "locationName": "Technologický klub",
+    "address": "Rozvojová 3",
+    "cityName": "Prostějov",
+    "latitude": 49.4689,
+    "longitude": 17.1114
+  },
+  {
+    "locationId": "282",
+    "locationName": "TUL, budova A",
+    "address": "Hálkova 6",
+    "cityName": "Liberec",
+    "latitude": 50.7727,
+    "longitude": 15.0716
+  }
+]

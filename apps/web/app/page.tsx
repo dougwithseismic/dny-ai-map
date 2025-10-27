@@ -1,102 +1,117 @@
-import Image, { type ImageProps } from "next/image";
-import { Button } from "@repo/ui/button";
-import styles from "./page.module.css";
+"use client";
 
-type Props = Omit<ImageProps, "src"> & {
-  srcLight: string;
-  srcDark: string;
-};
+import { useState, useEffect } from "react";
+import { useFilteredEvents } from "@/lib/graphql/hooks";
+import { EventCard } from "@/components/events/event-card";
+import { EventsMap } from "@/components/events/events-map";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useEventsFilters } from "@/lib/contexts/events-context";
+import { Map, List } from "lucide-react";
+import { generateEventsListSchema, JsonLdScript } from "@/lib/seo/json-ld";
 
-const ThemeImage = (props: Props) => {
-  const { srcLight, srcDark, ...rest } = props;
+type ViewMode = "list" | "map";
+
+export default function Home() {
+  const { filters, clearFilters } = useEventsFilters();
+  const [debouncedFilters, setDebouncedFilters] = useState(filters);
+  const [viewMode, setViewMode] = useState<ViewMode>("map");
+
+  // Debounce filter changes to prevent spamming GraphQL
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedFilters(filters);
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [filters]);
+
+  const [eventsResult] = useFilteredEvents(debouncedFilters);
+
+  const {
+    data: eventsData,
+    fetching: eventsLoading,
+    error: eventsError,
+  } = eventsResult;
+
+  const events = eventsData?.events || [];
+
+  // Generate ItemList schema for events
+  const eventsListSchema = events.length > 0 ? generateEventsListSchema(events) : null;
 
   return (
     <>
-      <Image {...rest} src={srcLight} className="imgLight" />
-      <Image {...rest} src={srcDark} className="imgDark" />
-    </>
-  );
-};
-
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <ThemeImage
-          className={styles.logo}
-          srcLight="turborepo-dark.svg"
-          srcDark="turborepo-light.svg"
-          alt="Turborepo logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>apps/web/app/page.tsx</code>
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new/clone?demo-description=Learn+to+implement+a+monorepo+with+a+two+Next.js+sites+that+has+installed+three+local+packages.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F4K8ZISWAzJ8X1504ca0zmC%2F0b21a1c6246add355e55816278ef54bc%2FBasic.png&demo-title=Monorepo+with+Turborepo&demo-url=https%3A%2F%2Fexamples-basic-web.vercel.sh%2F&from=templates&project-name=Monorepo+with+Turborepo&repository-name=monorepo-turborepo&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fturborepo%2Ftree%2Fmain%2Fexamples%2Fbasic&root-directory=apps%2Fdocs&skippable-integrations=1&teamSlug=vercel&utm_source=create-turbo"
-            target="_blank"
-            rel="noopener noreferrer"
+      {eventsListSchema && <JsonLdScript data={eventsListSchema} />}
+      <div className="flex flex-col w-full h-full">
+      {/* View Toggle */}
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">dny.ai meet schedule</h1>
+        <div className="inline-flex rounded-lg border p-1 bg-muted">
+          <Button
+            variant={viewMode === "list" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => setViewMode("list")}
+            className="gap-2"
           >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://turborepo.com/docs?utm_source"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
+            <List className="size-4" />
+            List
+          </Button>
+          <Button
+            variant={viewMode === "map" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => setViewMode("map")}
+            className="gap-2"
           >
-            Read our docs
-          </a>
+            <Map className="size-4" />
+            Map
+          </Button>
         </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert
-        </Button>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com/templates?search=turborepo&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://turborepo.com?utm_source=create-turbo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to turborepo.com →
-        </a>
-      </footer>
-    </div>
+      </div>
+
+      {eventsError && (
+        <Card className="border-destructive bg-destructive/10 text-destructive p-4 mb-4">
+          <p>Error loading events: {eventsError.message}</p>
+        </Card>
+      )}
+
+      {eventsLoading && (
+        <div className="space-y-6">
+          {[...Array(6)].map((_, i) => (
+            <Card key={i} className="p-6">
+              <Skeleton className="h-6 w-3/4 mb-4" />
+              <Skeleton className="h-4 w-1/2 mb-2" />
+              <Skeleton className="h-4 w-2/3" />
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {!eventsLoading && events.length === 0 && (
+        <Card className="text-center py-20">
+          <p className="text-muted-foreground text-lg mb-4">
+            No events found matching your criteria.
+          </p>
+          <Button onClick={clearFilters} variant="outline">
+            Clear filters
+          </Button>
+        </Card>
+      )}
+
+      {!eventsLoading && events.length > 0 && (
+        <div className={viewMode === "map" ? "flex-1 min-h-[600px]" : "flex-1"}>
+          {viewMode === "list" ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {events.map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))}
+            </div>
+          ) : (
+            <EventsMap events={events} />
+          )}
+        </div>
+      )}
+      </div>
+    </>
   );
 }
