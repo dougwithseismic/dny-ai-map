@@ -43,9 +43,9 @@ export default function Home() {
   return (
     <>
       {eventsListSchema && <JsonLdScript data={eventsListSchema} />}
-      <div className="flex flex-col w-full h-full">
+      <div className="flex flex-col w-full flex-1 overflow-hidden">
       {/* View Toggle */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-4 flex-shrink-0">
         <h1 className="text-2xl font-bold">dny.ai meet schedule</h1>
         <div className="inline-flex rounded-lg border p-1 bg-muted">
           <Button
@@ -70,13 +70,13 @@ export default function Home() {
       </div>
 
       {eventsError && (
-        <Card className="border-destructive bg-destructive/10 text-destructive p-4 mb-4">
+        <Card className="border-destructive bg-destructive/10 text-destructive p-4 mb-4 flex-shrink-0">
           <p>Error loading events: {eventsError.message}</p>
         </Card>
       )}
 
       {eventsLoading && (
-        <div className="space-y-6">
+        <div className="space-y-6 flex-1 overflow-y-auto">
           {[...Array(6)].map((_, i) => (
             <Card key={i} className="p-6">
               <Skeleton className="h-6 w-3/4 mb-4" />
@@ -88,7 +88,7 @@ export default function Home() {
       )}
 
       {!eventsLoading && events.length === 0 && (
-        <Card className="text-center py-20">
+        <Card className="text-center py-20 flex-shrink-0">
           <p className="text-muted-foreground text-lg mb-4">
             No events found matching your criteria.
           </p>
@@ -99,9 +99,9 @@ export default function Home() {
       )}
 
       {!eventsLoading && events.length > 0 && (
-        <div className={viewMode === "map" ? "flex-1 min-h-[600px]" : "flex-1"}>
+        <div className="flex-1 overflow-hidden">
           {viewMode === "list" ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-y-auto h-full">
               {events.map((event) => (
                 <EventCard key={event.id} event={event} />
               ))}

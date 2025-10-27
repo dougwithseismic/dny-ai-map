@@ -15,7 +15,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-import { Star } from "lucide-react";
+import { Star, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useWishlistStore } from "@/lib/stores/wishlist-store";
 import { WishlistRightSidebar } from "@/components/wishlist/wishlist-right-sidebar";
@@ -29,9 +29,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset
-        className={cn("transition-all duration-300", wishlistOpen && "mr-80")}
+        className={cn("transition-all duration-300 flex flex-col h-screen overflow-hidden", wishlistOpen && "mr-80")}
       >
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 bg-background z-10">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
           <Breadcrumb>
@@ -42,6 +42,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </BreadcrumbList>
           </Breadcrumb>
           <div className="ml-auto flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+            >
+              <a
+                href="https://github.com/dougwithseismic/dny-ai-map"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View on GitHub"
+              >
+                <Github className="size-4" />
+              </a>
+            </Button>
             <Button
               variant={wishlistOpen ? "default" : "ghost"}
               size="sm"
@@ -68,7 +82,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <ModeToggle />
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4">
+        <div className="flex flex-1 flex-col gap-4 p-4 overflow-y-auto">
           {children}
 
           {/* Footer */}

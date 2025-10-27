@@ -575,9 +575,9 @@ export function EventsMap({ events }: EventsMapProps) {
 
   return (
     <>
-      <div className="flex gap-4 w-full h-full">
-        {/* Left Side - Map (Sticky on desktop, full width on mobile) */}
-        <div className="relative flex-1 overflow-hidden rounded-lg lg:sticky lg:top-6 lg:h-[calc(100vh-8rem)] min-h-[500px] lg:min-h-0 border shadow-sm">
+      <div className="flex gap-4 w-full h-full overflow-hidden">
+        {/* Left Side - Map */}
+        <div className="relative flex-1 overflow-hidden rounded-lg border shadow-sm min-h-0">
           <div ref={mapContainer} className="w-full h-full" />
 
 
@@ -617,7 +617,7 @@ export function EventsMap({ events }: EventsMapProps) {
         </div>
 
         {/* Right Sidebar - Events List (Scrollable) */}
-        <div className="w-80 flex-shrink-0 border-l bg-background hidden lg:flex flex-col overflow-hidden lg:sticky lg:top-6 lg:h-[calc(100vh-8rem)]">
+        <div className="w-80 flex-shrink-0 border-l bg-background hidden lg:flex flex-col overflow-hidden h-full">
           <div className="p-4 border-b bg-background z-10 flex-shrink-0">
             <h2 className="text-lg font-semibold">Events</h2>
             {events.length > 0 && (
@@ -627,8 +627,8 @@ export function EventsMap({ events }: EventsMapProps) {
             )}
           </div>
 
-          <ScrollArea className="flex-1 [&>[data-slot=scroll-area-scrollbar]]:w-3 [&>[data-slot=scroll-area-scrollbar]]:bg-muted/30 [&_[data-slot=scroll-area-thumb]]:bg-muted-foreground/40 hover:[&_[data-slot=scroll-area-thumb]]:bg-muted-foreground/60">
-            <div className="p-4 space-y-3">
+          <ScrollArea className="flex-1 min-h-0 [&>[data-slot=scroll-area-scrollbar]]:w-3 [&>[data-slot=scroll-area-scrollbar]]:bg-muted/30 [&_[data-slot=scroll-area-thumb]]:bg-muted-foreground/40 hover:[&_[data-slot=scroll-area-thumb]]:bg-muted-foreground/60">
+            <div className="p-4 space-y-3 h-full">
 {sortedEvents.map((event) => {
                 const isSaved = isEventSaved(event.id);
                 return (
@@ -674,6 +674,23 @@ export function EventsMap({ events }: EventsMapProps) {
                             📍 {event.location.city.name}
                           </div>
                         )}
+
+                        {/* Price */}
+                        <div className={cn(
+                          "font-medium",
+                          event.price === 0 || event.price === null
+                            ? "text-green-600 dark:text-green-400"
+                            : "text-orange-600 dark:text-orange-400"
+                        )}>
+                          💵 {event.price === 0 || event.price === null ? "Free" : "Paid"}
+                        </div>
+
+                        {/* Languages */}
+                        {event.languages && event.languages.length > 0 && (
+                          <div className="text-muted-foreground">
+                            🌐 {event.languages.map(lang => translateLanguage(lang) || lang).join(", ")}
+                          </div>
+                        )}
                       </div>
 
                       {/* Tags */}
@@ -681,11 +698,6 @@ export function EventsMap({ events }: EventsMapProps) {
                         {event.targets?.slice(0, 2).map((target) => (
                           <Badge key={target.id} variant="outline" className="text-xs h-5">
                             {translateTarget(target.name)}
-                          </Badge>
-                        ))}
-                        {event.languages?.slice(0, 2).map((lang) => (
-                          <Badge key={lang} variant="secondary" className="text-xs h-5">
-                            {translateLanguage(lang)}
                           </Badge>
                         ))}
                       </div>
