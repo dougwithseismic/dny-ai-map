@@ -27,10 +27,8 @@ export function DatePicker({ minDate, maxDate }: DatePickerProps) {
       const current = new Date(range.from);
       const end = new Date(range.to || range.from);
 
-      // Add one day to end to make comparison exclusive (but include the end date)
-      end.setDate(end.getDate() + 1);
-
-      while (current < end) {
+      // Include all dates from start to end (inclusive)
+      while (current <= end) {
         const dateString = current.toISOString().split("T")[0];
         if (dateString) dates.push(dateString);
         current.setDate(current.getDate() + 1);
