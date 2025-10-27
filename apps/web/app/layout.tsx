@@ -21,8 +21,8 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "DNY.AI Events - Powered by Withseismic",
-  description: "Discover the best events, workshops, and conferences in Belgium curated by DNY.AI. Powered by Withseismic - connecting you with the vibrant Belgian event scene.",
-  keywords: ["events", "Belgium", "workshops", "conferences", "networking", "Brussels", "Antwerp", "Ghent", "DNY.AI", "Withseismic"],
+  description: "Discover the best events, workshops, and conferences in Czech Republic curated by DNY.AI. Powered by Withseismic - connecting you with the vibrant Czech event scene.",
+  keywords: ["events", "Czech Republic", "workshops", "conferences", "networking", "Prague", "Brno", "Ostrava", "DNY.AI", "Withseismic"],
   authors: [{ name: "Withseismic" }],
   openGraph: {
     type: "website",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     url: "https://dny.ai",
     siteName: "DNY.AI Events - Powered by Withseismic",
     title: "DNY.AI Events - Powered by Withseismic",
-    description: "Discover the best events, workshops, and conferences in Belgium curated by DNY.AI.",
+    description: "Discover the best events, workshops, and conferences in Czech Republic curated by DNY.AI.",
     images: [
       {
         url: "/og-image.png",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "DNY.AI Events - Powered by Withseismic",
-    description: "Discover the best events, workshops, and conferences in Belgium curated by DNY.AI.",
+    description: "Discover the best events, workshops, and conferences in Czech Republic curated by DNY.AI.",
     images: ["/og-image.png"],
   },
 };

@@ -4,10 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import MaplibreGeocoder from "@maplibre/maplibre-gl-geocoder";
+import "@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css";
 import type { Event } from "@/lib/types/graphql";
 import { missingLocationsCollector } from "@/lib/locations/missing-locations-collector";
 import { getLocationCoordinates } from "@/lib/locations/coordinates-mapping";
-import { shouldTrackMissingLocation } from "@/lib/locations/location-utils";
+import { shouldTrackMissingLocation, parseCityCoordinates } from "@/lib/locations/location-utils";
+import { geocodeCities, getCachedCityCoordinates } from "@/lib/locations/geocoding-service";
 import { Card } from "@/components/ui/card";
 import {
   Drawer,
@@ -19,7 +22,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Star, AlertCircle } from "lucide-react";
+import { Calendar, Clock, Star, AlertCircle, MapPin } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
 import { useTranslations } from "@/hooks/use-translations";
@@ -40,7 +43,9 @@ export function EventsMap({ events }: EventsMapProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedEvents, setSelectedEvents] = useState<Event[]>([]);
-  const [missingLocationsCount, setMissingLocationsCount] = useState(0);
+  const [hasCoordinates, setHasCoordinates] = useState(true);
+  const [geocodedCities, setGeocodedCities] = useState<Map<string, { latitude: number; longitude: number }>>(new Map());
+  const [isGeocoding, setIsGeocoding] = useState(false);
   const router = useRouter();
 
   // Detect mobile device
@@ -89,6 +94,56 @@ export function EventsMap({ events }: EventsMapProps) {
       // Add navigation controls
       map.current.addControl(new maplibregl.NavigationControl(), "top-right");
 
+      // Add geocoder control with Nominatim (OpenStreetMap) API
+      const geocoderApi = {
+        forwardGeocode: async (config: any) => {
+          const features = [];
+          try {
+            const request = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+              config.query
+            )}&format=geojson&limit=5&countrycodes=cz`;
+            const response = await fetch(request);
+            const geojson = await response.json();
+            for (const feature of geojson.features) {
+              const center = [
+                feature.geometry.coordinates[0],
+                feature.geometry.coordinates[1],
+              ];
+              const point = {
+                type: "Feature" as const,
+                id: feature.properties.place_id || feature.properties.osm_id || `${center[0]},${center[1]}`,
+                geometry: {
+                  type: "Point" as const,
+                  coordinates: center,
+                },
+                place_name: feature.properties.display_name,
+                properties: feature.properties,
+                text: feature.properties.display_name,
+                place_type: ["place"],
+                center,
+              };
+              features.push(point);
+            }
+          } catch (e) {
+            console.error(`Failed to forwardGeocode with error: ${e}`);
+          }
+
+          return {
+            type: "FeatureCollection" as const,
+            features,
+          };
+        },
+      };
+
+      const geocoder = new MaplibreGeocoder(geocoderApi, {
+        maplibregl: maplibregl,
+        placeholder: "Search for places in Czech Republic...",
+        marker: false,
+        showResultsWhileTyping: true,
+      });
+
+      map.current.addControl(geocoder, "top-left");
+
       // Disable automatic panning to popups
       map.current.on("movestart", (e) => {
         // Allow user-initiated moves but prevent popup-triggered moves
@@ -126,6 +181,62 @@ export function EventsMap({ events }: EventsMapProps) {
     };
   }, []);
 
+  // Geocode missing cities on mount and when events change
+  useEffect(() => {
+    async function geocodeMissingCities() {
+      // Collect unique city names that need geocoding
+      const citiesToGeocode = new Set<string>();
+
+      for (const event of events) {
+        if (!event.location) continue;
+
+        const { latitude, longitude } = event.location;
+        const cityName = event.location.city?.name;
+
+        // Skip if we already have venue coordinates
+        if (latitude != null && longitude != null) continue;
+
+        // Skip if we have geocoded coordinates
+        const geocodedCoords = getLocationCoordinates(event.location.id);
+        if (geocodedCoords) continue;
+
+        // Skip if we have city coordinates
+        const cityCoords = parseCityCoordinates(event.location.city?.coordinates);
+        if (cityCoords) continue;
+
+        // Skip online events
+        if (!shouldTrackMissingLocation(event.location.name, event.location.address, cityName)) {
+          continue;
+        }
+
+        // Skip if already cached
+        if (cityName && getCachedCityCoordinates(cityName)) {
+          continue;
+        }
+
+        // This city needs geocoding
+        if (cityName) {
+          citiesToGeocode.add(cityName);
+        }
+      }
+
+      // Geocode missing cities
+      if (citiesToGeocode.size > 0) {
+        setIsGeocoding(true);
+        try {
+          const results = await geocodeCities(Array.from(citiesToGeocode));
+          setGeocodedCities(results);
+        } catch (error) {
+          console.error("Error geocoding cities:", error);
+        } finally {
+          setIsGeocoding(false);
+        }
+      }
+    }
+
+    geocodeMissingCities();
+  }, [events]);
+
   useEffect(() => {
     if (!map.current) return;
 
@@ -133,15 +244,13 @@ export function EventsMap({ events }: EventsMapProps) {
     markers.current.forEach((marker) => marker.remove());
     markers.current = [];
 
-    // Track missing locations count
-    let missingCount = 0;
-
-    // Create enhanced events with coordinates (including geocoded fallback)
+    // Create enhanced events with coordinates (including geocoded and city fallback)
     const eventsWithCoords = events
       .map((event) => {
         if (!event.location) return null;
 
         let { latitude, longitude } = event.location;
+        let isApproximate = false;
 
         // Try to get coordinates from geocoded mapping if missing
         if (latitude == null || longitude == null) {
@@ -155,39 +264,78 @@ export function EventsMap({ events }: EventsMapProps) {
                 latitude: geocodedCoords.latitude,
                 longitude: geocodedCoords.longitude,
               },
+              _isApproximate: false,
             };
             return enhancedEvent;
           } else {
-            // Still no coordinates, track as missing (unless it's an online event)
-            if (
-              shouldTrackMissingLocation(
-                event.location.name,
-                event.location.address,
-                event.location.city?.name
-              )
-            ) {
-              missingLocationsCollector.add(
-                event.location.id,
-                event.location.name,
-                event.location.address,
-                event.location.city?.name || null
-              );
-              missingCount++;
+            // Try city coordinates from database as fallback
+            const cityCoords = parseCityCoordinates(event.location.city?.coordinates);
+            if (cityCoords) {
+              // Use city coordinates - mark as approximate
+              const enhancedEvent = {
+                ...event,
+                location: {
+                  ...event.location,
+                  latitude: cityCoords.latitude,
+                  longitude: cityCoords.longitude,
+                },
+                _isApproximate: true,
+              };
+              return enhancedEvent;
+            } else {
+              // Try runtime geocoded city coordinates
+              const cityName = event.location.city?.name;
+              const runtimeGeocodedCoords = cityName ? (geocodedCities.get(cityName) || getCachedCityCoordinates(cityName)) : null;
+
+              if (runtimeGeocodedCoords) {
+                // Use runtime geocoded coordinates - mark as approximate
+                const enhancedEvent = {
+                  ...event,
+                  location: {
+                    ...event.location,
+                    latitude: runtimeGeocodedCoords.latitude,
+                    longitude: runtimeGeocodedCoords.longitude,
+                  },
+                  _isApproximate: true,
+                };
+                return enhancedEvent;
+              } else {
+                // Still no coordinates, track as missing (unless it's an online event)
+                if (
+                  shouldTrackMissingLocation(
+                    event.location.name,
+                    event.location.address,
+                    event.location.city?.name
+                  )
+                ) {
+                  missingLocationsCollector.add(
+                    event.location.id,
+                    event.location.name,
+                    event.location.address,
+                    event.location.city?.name || null
+                  );
+                }
+                return null;
+              }
             }
-            return null;
           }
         }
 
-        return event;
+        return { ...event, _isApproximate: false };
       })
-      .filter((event): event is Event => event !== null);
+      .filter((event): event is Event & { _isApproximate: boolean } => event !== null);
 
+    // Update hasCoordinates state
+    setHasCoordinates(eventsWithCoords.length > 0);
+
+    // If no events with coordinates, don't render markers
     if (eventsWithCoords.length === 0) {
       return;
     }
 
     // Group events by location coordinates (round to 4 decimals to cluster nearby events)
-    const locationGroups = new Map<string, Event[]>();
+    type EnhancedEvent = Event & { _isApproximate: boolean };
+    const locationGroups = new Map<string, EnhancedEvent[]>();
     eventsWithCoords.forEach((event) => {
       if (!event.location?.latitude || !event.location?.longitude) return;
 
@@ -221,6 +369,9 @@ export function EventsMap({ events }: EventsMapProps) {
         return;
       }
 
+      // Check if any event in the group has approximate coordinates
+      const hasApproximate = groupEvents.some((e) => e._isApproximate);
+
       // Create popup content for single or multiple events
       const isDarkMode = document.documentElement.classList.contains("dark");
       const bgClass = isDarkMode ? "bg-zinc-900" : "bg-white";
@@ -247,6 +398,8 @@ export function EventsMap({ events }: EventsMapProps) {
           ? event.languages.map(lang => translateLanguage(lang) || lang).join(", ")
           : "";
 
+        const isApproximate = (event as any)._isApproximate;
+
         popupContent += `
           <div class="p-3 relative">
             <button
@@ -261,6 +414,7 @@ export function EventsMap({ events }: EventsMapProps) {
             <h3 class="font-semibold text-sm mb-2 pr-8">${event.name || "Untitled Event"}</h3>
             <p class="text-xs ${mutedClass} mb-2">
               📍 ${event.location?.name || ""}${event.location?.city?.name ? `, ${event.location.city.name}` : ""}
+              ${isApproximate ? '<span class="text-orange-500 dark:text-orange-400 font-medium ml-1">(Approx.)</span>' : ''}
             </p>
             ${
               event.term
@@ -305,6 +459,7 @@ export function EventsMap({ events }: EventsMapProps) {
             <h3 class="font-semibold text-sm mb-2">${eventCount} events at this location</h3>
             <p class="text-xs ${mutedClass} mb-3">
               📍 ${firstEvent.location?.name || ""}${firstEvent.location?.city?.name ? `, ${firstEvent.location.city.name}` : ""}
+              ${hasApproximate ? '<span class="text-orange-500 dark:text-orange-400 font-medium ml-1">(Approx.)</span>' : ''}
             </p>
             <div class="space-y-2 max-h-64 overflow-y-auto">
               ${groupEvents
@@ -388,7 +543,15 @@ export function EventsMap({ events }: EventsMapProps) {
       el.style.height = eventCount > 1 ? "40px" : "32px";
       el.style.borderRadius = "50%";
       el.style.backgroundColor = firstEvent?.targets?.[0]?.color || "#3b82f6";
-      el.style.border = "3px solid white";
+
+      // Different border style for approximate locations
+      if (hasApproximate) {
+        el.style.border = "3px dashed white";
+        el.style.opacity = "0.8";
+      } else {
+        el.style.border = "3px solid white";
+      }
+
       el.style.boxShadow = "0 2px 8px rgba(0,0,0,0.25)";
 
       // Show count if multiple events
@@ -549,9 +712,7 @@ export function EventsMap({ events }: EventsMapProps) {
       });
     }
 
-    // Update missing locations count state
-    setMissingLocationsCount(missingCount);
-  }, [events, router, isMobile]);
+  }, [events, router, isMobile, geocodedCities, translateLanguage]);
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "Date TBA";
@@ -587,18 +748,35 @@ export function EventsMap({ events }: EventsMapProps) {
       <div className="flex gap-4 w-full h-full overflow-hidden">
         {/* Left Side - Map */}
         <div className="relative flex-1 overflow-hidden rounded-lg border shadow-sm min-h-0">
-          <div ref={mapContainer} className="w-full h-full" />
-
-          {/* Missing Locations Alert */}
-          {missingLocationsCount > 0 && (
-            <div className="absolute bottom-4 left-4 z-10 max-w-xs">
-              <Alert variant="default" className="shadow-lg">
-                <AlertCircle className="size-4" />
-                <AlertDescription className="text-xs">
-                  {missingLocationsCount} event{missingLocationsCount !== 1 ? 's' : ''} {missingLocationsCount !== 1 ? 'have' : 'has'} missing location data and {missingLocationsCount !== 1 ? 'are' : 'is'} not shown on the map.
-                </AlertDescription>
-              </Alert>
+          {!hasCoordinates && events.length > 0 ? (
+            <div className="w-full h-full flex items-center justify-center bg-muted/20">
+              <Card className="max-w-md p-8 text-center">
+                <div className="flex justify-center mb-4">
+                  <div className="rounded-full bg-muted p-4">
+                    <MapPin className="size-8 text-muted-foreground" />
+                  </div>
+                </div>
+                <h3 className="text-lg font-semibold mb-2">No Location Data Available</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  We don't have location information for any of these events yet.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Switch to <span className="font-medium">List View</span> to see all events.
+                </p>
+              </Card>
             </div>
+          ) : (
+            <>
+              <div ref={mapContainer} className="w-full h-full" />
+              {isGeocoding && (
+                <div className="absolute top-4 right-4 z-10 bg-background/95 backdrop-blur-sm border rounded-lg px-4 py-2 shadow-lg">
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="size-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    <span className="text-muted-foreground">Geocoding cities...</span>
+                  </div>
+                </div>
+              )}
+            </>
           )}
 
 

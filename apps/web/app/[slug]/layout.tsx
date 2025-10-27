@@ -39,7 +39,7 @@ export async function generateMetadata({
       ...(event.targets?.map((t: { name: string | null }) => t.name) || []),
       ...(event.languages || []),
       event.location?.city?.name,
-      "Belgium",
+      "Czech Republic",
       "DNY.AI",
       "Withseismic",
       "event",
@@ -60,8 +60,8 @@ export async function generateMetadata({
         title: event.name,
         description,
         ...(event.location?.city?.name && {
-          countryName: "Belgium",
-          locale: "en_BE",
+          countryName: "Czech Republic",
+          locale: "en_CZ",
         }),
       },
       twitter: {

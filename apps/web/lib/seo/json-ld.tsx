@@ -30,7 +30,7 @@ export function generateOrganizationSchema(): JsonLd {
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "Customer Service",
-      availableLanguage: ["English", "French", "Dutch"],
+      availableLanguage: ["English", "Czech"],
     },
   };
 }
@@ -73,7 +73,7 @@ export function generateEventSchema(event: Event): JsonLd {
       "@type": "PostalAddress",
       streetAddress: event.location.address,
       addressLocality: event.location.city?.name || undefined,
-      addressCountry: "BE",
+      addressCountry: "CZ",
     } : undefined,
     geo: event.location.latitude && event.location.longitude ? {
       "@type": "GeoCoordinates",
@@ -118,7 +118,7 @@ export function generateEventSchema(event: Event): JsonLd {
     "@id": eventUrl,
     name: event.name || "",
     url: eventUrl,
-    description: event.content?.replace(/<[^>]*>/g, "").substring(0, 500) || `Join us for ${event.name} in Belgium. Discover this event on DNY.AI, powered by Withseismic.`,
+    description: event.content?.replace(/<[^>]*>/g, "").substring(0, 500) || `Join us for ${event.name} in Czech Republic. Discover this event on DNY.AI, powered by Withseismic.`,
     startDate: event.term || undefined,
     endDate: event.term || undefined,
     eventStatus: "https://schema.org/EventScheduled",
@@ -133,7 +133,7 @@ export function generateEventSchema(event: Event): JsonLd {
     keywords: [
       ...(event.tags || []),
       ...(event.targets?.map(t => t.name) || []),
-      "Belgium",
+      "Czech Republic",
       "DNY.AI",
       "Withseismic",
     ].join(", "),

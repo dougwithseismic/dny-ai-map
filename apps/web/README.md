@@ -2,11 +2,11 @@
 
 ![DNY.AI Events Tool](./public/dny-map.png)
 
-A helpful events tool for [DNY.AI](https://dny.ai) - making AI events in Belgium accessible to everyone, regardless of language barriers.
+A helpful events tool for [DNY.AI](https://dny.ai) - making AI events in Czech Republic accessible to everyone, regardless of language barriers.
 
 ## Why This Exists
 
-DNY.AI hosts events across Belgium featuring AI talks, meetups, conferences, workshops, and lectures. While the original site is beautifully designed, it presents challenges for international attendees:
+DNY.AI hosts events across Czech Republic featuring AI talks, meetups, conferences, workshops, and lectures. While the original site is beautifully designed, it presents challenges for international attendees:
 
 - **No language filtering** for English speakers
 - **No map visualization** for event locations
@@ -48,7 +48,7 @@ pnpm clean        # Clean build artifacts
 ## Key Features
 
 ### 🗺️ Interactive Maps
-MapLibre-powered maps showing event locations across Belgium with geocoded coordinates.
+MapLibre-powered maps showing event locations across Czech Republic with geocoded coordinates.
 
 ### 🌍 Multilingual Support
 Automatic Czech-to-English translation for all event data, with intelligent mapping system for handling accent variations.
