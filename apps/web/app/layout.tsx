@@ -31,11 +31,20 @@ export const metadata: Metadata = {
     siteName: "DNY.AI Events - Powered by Withseismic",
     title: "DNY.AI Events - Powered by Withseismic",
     description: "Discover the best events, workshops, and conferences in Belgium curated by DNY.AI.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "DNY.AI Events - Helpful Events Tool",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "DNY.AI Events - Powered by Withseismic",
     description: "Discover the best events, workshops, and conferences in Belgium curated by DNY.AI.",
+    images: ["/og-image.png"],
   },
 };
 

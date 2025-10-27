@@ -19,7 +19,8 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Star } from "lucide-react";
+import { Calendar, Clock, Star, AlertCircle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
 import { useTranslations } from "@/hooks/use-translations";
 import { useWishlistStore } from "@/lib/stores/wishlist-store";
@@ -39,6 +40,7 @@ export function EventsMap({ events }: EventsMapProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedEvents, setSelectedEvents] = useState<Event[]>([]);
+  const [missingLocationsCount, setMissingLocationsCount] = useState(0);
   const router = useRouter();
 
   // Detect mobile device
@@ -131,6 +133,9 @@ export function EventsMap({ events }: EventsMapProps) {
     markers.current.forEach((marker) => marker.remove());
     markers.current = [];
 
+    // Track missing locations count
+    let missingCount = 0;
+
     // Create enhanced events with coordinates (including geocoded fallback)
     const eventsWithCoords = events
       .map((event) => {
@@ -167,6 +172,7 @@ export function EventsMap({ events }: EventsMapProps) {
                 event.location.address,
                 event.location.city?.name || null
               );
+              missingCount++;
             }
             return null;
           }
@@ -542,6 +548,9 @@ export function EventsMap({ events }: EventsMapProps) {
         padding: 30,
       });
     }
+
+    // Update missing locations count state
+    setMissingLocationsCount(missingCount);
   }, [events, router, isMobile]);
 
   const formatDate = (dateString: string | null) => {
@@ -579,6 +588,18 @@ export function EventsMap({ events }: EventsMapProps) {
         {/* Left Side - Map */}
         <div className="relative flex-1 overflow-hidden rounded-lg border shadow-sm min-h-0">
           <div ref={mapContainer} className="w-full h-full" />
+
+          {/* Missing Locations Alert */}
+          {missingLocationsCount > 0 && (
+            <div className="absolute bottom-4 left-4 z-10 max-w-xs">
+              <Alert variant="default" className="shadow-lg">
+                <AlertCircle className="size-4" />
+                <AlertDescription className="text-xs">
+                  {missingLocationsCount} event{missingLocationsCount !== 1 ? 's' : ''} {missingLocationsCount !== 1 ? 'have' : 'has'} missing location data and {missingLocationsCount !== 1 ? 'are' : 'is'} not shown on the map.
+                </AlertDescription>
+              </Alert>
+            </div>
+          )}
 
 
         <style jsx global>{`
